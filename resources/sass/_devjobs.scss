@@ -42,3 +42,15 @@
         line-height: 2;
     }
 }
+
+
+// Dropzone
+.dropzone {
+    border: 2px dashed #c1d1c1;
+    .dz-error {
+        display: none;
+    }
+    .dz-message .dz-button {
+        color: #666;
+    }
+}
