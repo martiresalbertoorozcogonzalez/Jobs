@@ -147,7 +147,13 @@
                 Descripcion del Puesto
             </label>
             <div class="editable p-3 bg-gray-100 rounded form-input w-full text-gray-700"></div>
-            <input type="hidden" name="descripcion" id="descripcion">
+            <input type="hidden" name="descripcion" id="descripcion" value="{{old('descripcion')}}">
+            @error('descripcion')
+                <div class="bg-red-200 border border-red-500 text-red-800 px-4 py-3 rounded relative mt-3 mb-6" role="alert">
+                    <strong class="font-bold">Error!!</strong>
+                    <span class="block">{{$message}}</span>
+                </div>
+            @enderror()
         </div>
 
         <div class="mb-5">
@@ -156,8 +162,13 @@
             </label>
             <div id="dropzoneJobs" class="dropzone rounded bg-gray-100"></div>
 
-            <input type="hidden" name="imagen" id="imagen">
-
+            <input type="hidden" name="imagen" id="imagen" value="{{old('imagen')}}">
+            @error('imagen')
+                <div class="bg-red-200 border border-red-500 text-red-800 px-4 py-3 rounded relative mt-3 mb-6" role="alert">
+                    <strong class="font-bold">Error!!</strong>
+                    <span class="block">{{$message}}</span>
+                </div>
+            @enderror()
             <p id="error"></p>
         </div>
 
@@ -201,7 +212,7 @@
             const editor = new MediumEditor('.editable', {
                 toolbar: {
                     buttons: ['bold', 'italic', 'underline', 'quote', 'anchor', 'justifyLeft',
-                        'justifyCenter', 'justifyRight', 'justifyFull', 'orderedList', 'unorderedList',
+                        'justifyCenter', 'justifyRight', 'justifyFull', 'orderedlist', 'unorderedlist',
                         'h2', 'h3'
                     ],
                     static: true,
@@ -211,12 +222,17 @@
                     text: 'Informacion de la vacante'
                 }
             });
-
+   
+            // Agrega al input hidden lo que el usuario escribe en medium editor
             editor.subscribe('editableInput', function(eventObj, editable) {
                 const contenido = editor.getContent();
                 document.querySelector('#descripcion').value = contenido;
             })
 
+            //Llena el editor con el contenido del input
+            editor.setContent( document.querySelector('#descripcion').value );
+
+            //Dropzone
             const dropzoneJobs = new Dropzone('#dropzoneJobs', {
                 url: "/vacantes/imagen",
                 dictDefaultMessage: 'Sube aqui tu imagen',
@@ -226,6 +242,19 @@
                 maxFiles: 1,
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                },
+                init: function() {
+                   if( document.querySelector('#imagen').value.trim()) {
+                     let imagenPublicada = {};
+                     imagenPublicada.size = 1234;
+                     imagenPublicada.name = document.querySelector('#imagen').value;
+                     
+                     this.options.addedfile.call(this, imagenPublicada);
+                     this.options.thumbnail.call(this, imagenPublicada, `/storage/vacantes/${imagenPublicada.name}`);
+
+                     imagenPublicada.previewElement.classList.add('dz-sucess');
+                     imagenPublicada.previewElement.classList.add('dz-complete');
+                   }
                 },
                 success: function(file, response) {
                     //console.log(file);
@@ -250,7 +279,7 @@
                     console.log('El archivo borrado fue', file);
 
                     params = {
-                        imagen: file.nombreServidor
+                        imagen: file.nombreServidor ?? document.querySelector('#imagen').value
                     }
 
                     axios.post('/vacantes/borrarimagen', params)

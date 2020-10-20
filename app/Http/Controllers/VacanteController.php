@@ -63,7 +63,9 @@ class VacanteController extends Controller
            'categoria' => 'required',
            'experiencia' => 'required',
            'ubicacion' => 'required',
-           'salario' => 'required'
+           'salario' => 'required',
+           'descripcion' => 'required|min:50',
+           'imagen' => 'required'
         ]);
 
         return "Desde store";
