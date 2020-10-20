@@ -9,6 +9,7 @@ use App\Ubicacion;
 use App\Experiencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class VacanteController extends Controller
 {
@@ -56,7 +57,16 @@ class VacanteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validacion
+        $data = $request->validate([
+           'titulo' => 'required|min:7',
+           'categoria' => 'required',
+           'experiencia' => 'required',
+           'ubicacion' => 'required',
+           'salario' => 'required'
+        ]);
+
+        return "Desde store";
     }
 
     /**
