@@ -21,11 +21,23 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Ruta de vacantes
-Route::get('/vacantes', 'VacanteController@index')->name('vacantes.index');
-Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create'); 
-Route::post('/vacantes','VacanteController@store')->name('vacantes.store');
+//Rutas portegidas con el middleware auth
+Route::group(['middleware' => ['admin','verified']], function () {
 
-// Subir imagenes
- Route::post('/vacantes/imagen','VacanteController@imagen')->name('vacantes.imagen');
- Route::post('/vacantes/borrarimagen','VacanteController@borrarimagen')->name('vacantes.borrar');
+    // Ruta de vacantes
+    Route::get('/vacantes', 'VacanteController@index')->name('vacantes.index');
+    Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create'); 
+    Route::post('/vacantes','VacanteController@store')->name('vacantes.store');
+
+    // Subir imagenes
+    Route::post('/vacantes/imagen','VacanteController@imagen')->name('vacantes.imagen');
+    Route::post('/vacantes/borrarimagen','VacanteController@borrarimagen')->name('vacantes.borrar');
+
+});
+
+// Muestra las vacantes en el frontend sin autorizacion
+Route::get('/vacantes/{vacante}', 'VacanteController@show')->name('vacantes.show');
+
+
+
+
