@@ -174,7 +174,7 @@
 
         <div class="mb-5">
             <label for="skills" class="block text-gray-700 text-sm mb-2">
-                Habilidades y conocimietos
+                Habilidades y conocimietos: <span class="xs">[Elige al menos 3]</span>
             </label>
 
             @php
@@ -183,7 +183,17 @@
             Native','Flutter','MobX','C#','Ruby on Rails']
             @endphp
 
-            <lista-skills :skills="{{ json_encode($skills) }}"></lista-skills>
+            <lista-skills 
+              :skills="{{ json_encode($skills) }}"
+              :oldskills="{{ json_encode(old('skills'))}}"  
+            ></lista-skills>
+
+            @error('skills')
+                <div class="bg-red-200 border border-red-500 text-red-800 px-4 py-3 rounded relative mt-3 mb-6" role="alert">
+                    <strong class="font-bold">Error!!</strong>
+                    <span class="block">{{$message}}</span>
+                </div>
+            @enderror()
 
         </div>
 
