@@ -22,7 +22,7 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Rutas portegidas con el middleware auth
-Route::group(['middleware' => ['admin','verified']], function () {
+Route::group(['middleware' => ['auth','verified']], function () {
 
     // Ruta de vacantes
     Route::get('/vacantes', 'VacanteController@index')->name('vacantes.index');
