@@ -53,9 +53,8 @@
       </div>
 
     </div>
-    <div class="md:w-3/5">
-     2
-    </div>
+    
+    @include('ext.contacto')
 
 </div>
 
