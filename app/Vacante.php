@@ -34,9 +34,16 @@ class Vacante extends Model
         return $this->belongsTo(Experiencia::class);
     }
 
-    //Relacion de uno a uno 
+    //Relacion de uno a uno
     public function reclutador()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    //Relacion 1:n vacante y candidatos
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class);
+    }
+
 }

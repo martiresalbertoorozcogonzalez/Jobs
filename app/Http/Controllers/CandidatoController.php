@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Vacante;
 use App\Candidato;
 use Illuminate\Http\Request;
 
@@ -43,7 +44,43 @@ class CandidatoController extends Controller
             'vacante_id' => 'required'
         ]);
 
-        return "Desde store";
+        //Almacenar archivo pdf
+        if ($request->file('cv')) {
+            $archivo = $request->file('cv');
+            $nombreArchivo = time() . "." .$request->file('cv')->extension();
+            $ubicacion = public_path('/storage/cv');
+            $archivo->move($ubicacion, $nombreArchivo);
+        }
+
+        //Cuarto metodo para guardar candidatos con relacion
+        $vacante = Vacante::find($data['vacante_id']);
+
+        $vacante->candidatos()->create([
+            'nombre' => $data['nombre'],
+            'email' => $data['email'],
+            'cv' => $nombreArchivo
+        ]);
+
+        //Primer metodo
+        // $candidato = New Candidato();
+        // $candidato->nombre = $data['nombre'];
+        // $candidato->email = $data['email'];
+        // $candidato->nombre = $data['nombre'];
+        // $candidato->vacante_id = $data['vacante_id'];
+        // $candidato->cv = "123.pdf";
+
+        //segunda forma
+        // $candidato = New Candidato($data);
+        // $candidato->cv = "123.pdf";
+
+        //prueba tres
+        // $candidato = New Candidato();
+        // $candidato->fill($data);
+        // $candidato->cv = "123.pdf";
+
+        // $candidato->save();
+
+        return back();
     }
 
     /**
