@@ -26,15 +26,18 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
     // Ruta de vacantes
     Route::get('/vacantes', 'VacanteController@index')->name('vacantes.index');
-    Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create'); 
+    Route::get('/vacantes/create', 'VacanteController@create')->name('vacantes.create');
     Route::post('/vacantes','VacanteController@store')->name('vacantes.store');
-   
+
 
     // Subir imagenes
     Route::post('/vacantes/imagen','VacanteController@imagen')->name('vacantes.imagen');
     Route::post('/vacantes/borrarimagen','VacanteController@borrarimagen')->name('vacantes.borrar');
 
 });
+
+//Enviar datos para una vacante
+Route::post('/candidatos/store','CandidatoController@store')->name('candidatos.store');
 
 // Muestra las vacantes en el frontend sin autorizacion
 Route::get('/vacantes/{vacante}', 'VacanteController@show')->name('vacantes.show');
