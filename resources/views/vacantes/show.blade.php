@@ -5,17 +5,23 @@
 @endsection
 
 @section('content')
-    
+
+@if (session('estado'))
+    <div class="bg-teal-600 p-8 text-center text-white font-bold uppercase">
+        {{session('estado')}}
+    </div>
+@endif
+
 <h1 class="text-3xl text-center mt-10">{{$vacante->titulo}}</h1>
 
 <div class="mt-10 mb-20 md:flex items-start">
-  
+
     <div class="md:w-3/5">
       <p class="block text-gray-700 font-bold my-2">
          Publicado: <span class="font-normal">{{ $vacante->created_at->diffForHumans() }}</span>
          <p class="block text-gray-700 font-bold my-2">
              Por: <span class="font-normal">{{ $vacante->reclutador->name }}</span>
-         </p>        
+         </p>
       </p>
       <p class="block text-gray-700 font-bold my-2">
          Categoria: <span class="font-normal">{{$vacante->categoria->nombre}}</span>
@@ -33,7 +39,7 @@
       <h2 class="text-2l text-center mt-10 text-gray-800 mb-5">
           Conocimientos y Tecnologias
       </h2>
-      
+
       @php
           $arraySkills = explode(",", $vacante->skills)
       @endphp
@@ -53,7 +59,7 @@
       </div>
 
     </div>
-    
+
     @include('ext.contacto')
 
 </div>

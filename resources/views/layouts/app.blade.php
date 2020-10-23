@@ -9,7 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    @yield('styles')    
+    @yield('styles')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -22,17 +22,18 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-200 min-h-screen leading-none">
+
     <div id="app">
         <nav class="bg-gray-800 shadow-md py-2">
-            <div class="container mx-auto md:px-0"> 
+            <div class="container mx-auto md:px-0">
                 <div class="flex item-center justify-around">
-                    
+
                     <a class="text-2xl text-white" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
-                 
+
                     <nav class="flex-1 text-right">
-                      
+
                             <!-- Authentication Links -->
                             @guest
                                 <a class="text-white no-underline hover:underline hover:text-gray-100 p-3" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -57,10 +58,10 @@
 
         <div class="bg-gray-700">
             <div class="container mx-auto flex space-x-1">
-                   @yield('navegacion')  
+                   @yield('navegacion')
             </div>
         </div>
-        
+
         <main class="mt-10 container mx-auto">
             @yield('content')
         </main>
@@ -68,6 +69,6 @@
 
     @yield('scripts')
 
-    
+
 </body>
 </html>
