@@ -41,12 +41,14 @@
                                 <a class="text-white no-underline hover:underline hover:text-gray-100 p-3" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 @endif
                             @else
-                              <span class="text-gray-300 text-sm pr-4">{{ Auth::user()->name }}</span>
 
-                              <a
-                                href="{{route('notificaciones')}}"
-                                class="bg-teal-600 rounded-full mr-3 px-3 py-2 font-bold text-sm text-white"
-                               >{{Auth::user()->unreadNotifications->count() }}</a>
+                            <a
+                            href="{{route('notificaciones')}}"
+                            class="bg-teal-600 rounded-full mr-3 px-3 py-2 font-bold text-sm text-white"
+                            >{{Auth::user()->unreadNotifications->count() }}
+                            </a>
+
+                            <span class="text-gray-300 text-sm pr-4">{{ Auth::user()->name }}</span>
 
                             <a class="no-underline hover:underline text-gray-300" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();

@@ -21,9 +21,9 @@ class VacanteController extends Controller
     public function index()
     {
         $vacantes = Vacante::where('user_id', auth()->user()->id )->simplePaginate(4);
-        
+
         // dd($vacantes);
-        
+
         return view('vacantes.index',compact('vacantes'));
     }
 
@@ -90,7 +90,7 @@ class VacanteController extends Controller
      */
     public function show(Vacante $vacante)
     {
-        
+
 
         return view('vacantes.show')->with('vacante',$vacante);
 
@@ -133,7 +133,7 @@ class VacanteController extends Controller
 
     //Campos extras
     public function imagen(Request $request)
-    { 
+    {
         $imagen = $request->file('file');
         $nombreImagen = time() . '.' . $imagen->extension();
         $imagen->move(public_path('storage/vacantes'), $nombreImagen);
@@ -152,8 +152,21 @@ class VacanteController extends Controller
           }
 
           return response('Imagen Eliminada', 200);
-        
+
         }
+    }
+
+
+    //Cambiar estado de la vacante activo o inactivo
+    public function estado(Request $request, Vacante $vacante)
+    {
+       //Leer nuevo estado
+       $vacante->activa = $request->estado;
+
+       //Guararlo en la BD
+       $vacante->save();
+
+       return response()->json(['respuesta' => 'Correcto']);
     }
 
 }
