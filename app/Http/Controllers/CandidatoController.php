@@ -24,6 +24,8 @@ class CandidatoController extends Controller
         //Obtener
         $vacante = Vacante::findOrFail( $id_vacante);
 
+        $this->authorize('view', $vacante);
+
         // dd($vacante->candidatos);
 
         return view('candidatos.index',compact('vacante'));
