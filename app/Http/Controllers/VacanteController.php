@@ -104,7 +104,19 @@ class VacanteController extends Controller
      */
     public function edit(Vacante $vacante)
     {
-        //
+         // Consultas
+         $categorias = Categoria::all();
+         $experiencias = Experiencia::all();
+         $ubicaciones = Ubicacion::all();
+         $salarios = Salario::all();
+
+         return view('vacantes.edit')
+         ->with('categorias', $categorias)
+         ->with('experiencias', $experiencias)
+         ->with('ubicaciones', $ubicaciones)
+         ->with('salarios', $salarios)
+         ->with('vacante' , $vacante);
+
     }
 
     /**
@@ -116,7 +128,34 @@ class VacanteController extends Controller
      */
     public function update(Request $request, Vacante $vacante)
     {
-        //
+
+        //validacion
+        $data = $request->validate([
+            'titulo' => 'required|min:7',
+            'categoria' => 'required',
+            'experiencia' => 'required',
+            'ubicacion' => 'required',
+            'salario' => 'required',
+            'descripcion' => 'required|min:50',
+            'imagen' => 'required',
+            'skills' => 'required'
+         ]);
+
+
+         $vacante->titulo = $data['titulo'];
+         $vacante->skills = $data['skills'];
+         $vacante->imagen = $data['imagen'];
+         $vacante->descripcion = $data['descripcion'];
+         $vacante->categoria_id = $data['categoria'];
+         $vacante->experiencia_id = $data['experiencia'];
+         $vacante->ubicacion_id = $data['ubicacion'];
+         $vacante->salario_id = $data['salario'];
+
+         $vacante->save();
+
+         //redireccionar
+         return redirect()->action('VacanteController@index');
+
     }
 
     /**
