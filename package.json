@@ -26,6 +26,7 @@
     "dependencies": {
         "laravel-mix-tailwind": "^0.1.1",
         "lightbox2": "^2.11.3",
-        "tailwindcss": "^1.9.1"
+        "tailwindcss": "^1.9.1",
+        "vue-sweetalert2": "^4.1.1"
     }
 }
