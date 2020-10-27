@@ -13,13 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes(['verify' => true]);
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 //Rutas portegidas con el middleware auth
 Route::group(['middleware' => ['auth','verified']], function () {
@@ -44,6 +39,12 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
 
 });
+
+//Pagina de Inicio
+Route::get('/','InicioController')->name('inicio');
+
+//Categoria
+Route::get('/categorias/{categoria}','CategoriaController@show')->name('categorias.show');
 
 //Enviar datos para una vacante
 Route::get('/candidatos/{id}', 'CandidatoController@index')->name('candidatos.index');
